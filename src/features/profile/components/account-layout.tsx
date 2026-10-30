@@ -3,8 +3,11 @@ import type { ReactNode } from 'react'
 import { toast } from 'sonner'
 import { ActivityIcon, BagIcon, DownloadIcon, HeartIcon, LocationIcon, LogoutIcon, UserIcon, WarningIcon } from '@/components/icons'
 import { useLogout } from '@/features/auth/api'
+import { cn } from '@/lib/utils'
 
-const item = 'flex h-[45px] items-center gap-3 border-l-[5px] border-transparent px-4 text-[15px] text-accent whitespace-nowrap'
+// O item ativo (data-status do TanStack Router) ganha a barra laranja à esquerda, como no Figma.
+const item =
+  'flex h-[45px] items-center gap-3 border-l-[5px] border-transparent px-4 text-[15px] text-accent whitespace-nowrap data-[status=active]:border-primary data-[status=active]:bg-surface-raised/40'
 const SOON = [
   { label: 'Atividade', Icon: BagIcon },
   { label: 'Lista de interesse', Icon: HeartIcon },
@@ -14,7 +17,8 @@ const SOON = [
 ]
 
 /** Menu "Meu perfil" + conteúdo. No mobile o menu vira uma faixa rolável. */
-export function AccountLayout({ title, children }: { title: string; children: ReactNode }) {
+/** `titleHidden`: o título fica só para leitores de tela quando o layout já abre com um subtítulo próprio. */
+export function AccountLayout({ title, titleHidden, children }: { title: string; titleHidden?: boolean; children: ReactNode }) {
   const navigate = useNavigate()
   const logout = useLogout()
   const signOut = () =>
@@ -31,12 +35,12 @@ export function AccountLayout({ title, children }: { title: string; children: Re
         <h2 className="hidden px-2.5 pt-6 pb-2 text-lg font-bold lg:block">Meu perfil</h2>
         <ul className="flex flex-wrap lg:flex-col">
           <li>
-            <Link to="/perfil" className={item} activeProps={{ className: 'border-primary bg-surface-raised/40' }}>
+            <Link to="/perfil" className={item}>
               <UserIcon className="size-4" /> Dados do perfil
             </Link>
           </li>
           <li>
-            <Link to="/carteiras" className={item} activeProps={{ className: 'border-primary bg-surface-raised/40' }}>
+            <Link to="/carteiras" className={item}>
               <LocationIcon className="size-4" /> Carteiras
             </Link>
           </li>
@@ -56,7 +60,7 @@ export function AccountLayout({ title, children }: { title: string; children: Re
         </ul>
       </nav>
       <section aria-labelledby="account-title" className="min-w-0 flex-1">
-        <h1 id="account-title" className="text-[15px] font-bold">
+        <h1 id="account-title" className={cn('text-[15px] font-bold', titleHidden && 'sr-only')}>
           {title}
         </h1>
         {children}

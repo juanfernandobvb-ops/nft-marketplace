@@ -16,12 +16,20 @@ export function HeroBanner() {
       <div className="flex max-w-[600px] flex-col gap-4 md:gap-8">
         <div className="flex flex-col gap-1 md:gap-2">
           <p className="text-[13px] font-medium tracking-[0.1em] md:text-sm">Bem-vindo à Kurio</p>
-          <h1 id="hero-title" className="text-lg leading-7 font-bold md:text-[43px] md:leading-[70px]">
-            SEJA DONO DO FUTURO
-            <br />
-            DA ARTE DIGITAL
+          {/* O Figma usa títulos diferentes no mobile e no desktop. */}
+          <h1 id="hero-title" className="text-lg leading-[29px] font-bold md:text-[43px] md:leading-[70px]">
+            <span className="md:hidden">
+              SEJA DONO DA
+              <br />
+              CULTURA DIGITAL
+            </span>
+            <span className="hidden md:inline">
+              SEJA DONO DO FUTURO
+              <br />
+              DA ARTE DIGITAL
+            </span>
           </h1>
-          <p className="max-w-[557px] text-[13px] leading-5 text-muted-foreground md:text-sm md:leading-6">
+          <p className="max-w-[557px] text-xs leading-[18px] text-muted-foreground md:text-sm md:leading-6">
             <span className="md:hidden">Descubra NFTs selecionados de criadores do mundo todo.</span>
             <span className="hidden md:inline">
               Descubra NFTs selecionados de criadores emergentes e consagrados. Colecione arte digital rara, apoie

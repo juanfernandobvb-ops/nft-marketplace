@@ -225,6 +225,12 @@ Análise do mobile, onde a margem é pequena (execuções individuais entre 89 e
 - **Rótulos "Contrato" e "Direitos autorais":** estavam trocados no Figma; foi usada a ordem correta.
 - **Selo "RARO" do card mobile:** não foi implementado, porque a lista da API não traz raridade.
 - **Pagamento:** abre uma revisão antes de confirmar (exigência do enunciado). Os campos de carteira são somente leitura, porque vêm das carteiras cadastradas.
+- **Pagamento no mobile:** o frame do Figma mostra só a escolha de carteira e rede. A implementação mantém também os dados do colecionador (validados, como pede o enunciado), na mesma ordem do desktop, em uma coluna.
+- **Confirmação do pedido:** é uma página própria (com cabeçalho), e não um modal sobre o fundo, para funcionar com acesso direto, refresh e retomada de um pedido pendente. O cartão segue o layout do Figma.
+- **Detalhe no mobile:** as miniaturas da galeria continuam visíveis abaixo da imagem (o frame mostra só a imagem principal), para a galeria funcionar também no toque.
+- **Início no mobile:** há uma linha "Filtros / Ordenar" abaixo das abas, porque a ordenação é obrigatória e o frame não tem esse controle.
+- **Trilho "Mais desta coleção":** sem as bolinhas de paginação do Figma; no desktop os 5 itens cabem na linha e no mobile o trilho rola na horizontal.
+- **Rodapé, coluna "Meu perfil":** os links do Figma (Minha coleção, Atividade, Estúdio do criador, Lista de interesse) apontam para áreas fora do escopo e foram trocados pelos destinos que existem: Meu perfil, Minhas carteiras e Carrinho.
 - **Tablet (768–1023 px), sem frame no Figma:**
   - o cabeçalho esconde "Criadores"/"Aprenda" (itens "em breve") e mostra só o ícone do usuário;
   - o carrinho mostra o resumo abaixo da tabela até 1279 px;
@@ -238,5 +244,4 @@ Análise do mobile, onde a margem é pequena (execuções individuais entre 89 e
 
 - **Não há backend:** toda a persistência é do navegador. Limpar os dados do site reinicia a simulação.
 - **Cada aba roda o próprio servidor simulado:** eventos em tempo real não atravessam abas (veja [Transporte do socket](#transporte-do-socket-e-limitações)).
-- **Mensagens de validação:** as dos schemas estão em português. Mensagens padrão do Zod que não foram personalizadas aparecem em inglês.
 - **Performance mobile:** fica perto do limite de 90 por causa da inicialização obrigatória do MSW (veja [Performance](#performance)).

@@ -163,7 +163,7 @@ export function WalletsView() {
   const profile = useQuery({ ...profileQuery(userId), enabled: Boolean(user) })
 
   return (
-    <AccountLayout title="Carteiras">
+    <AccountLayout title="Carteiras" titleHidden>
       {wallets.isPending || profile.isPending ? (
         <Skeleton className="mt-8 h-[560px]" />
       ) : wallets.isError || profile.isError ? (

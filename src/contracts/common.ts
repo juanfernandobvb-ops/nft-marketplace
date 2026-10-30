@@ -1,5 +1,9 @@
 import { z } from 'zod'
 
+// Mensagens padrão do Zod em português (as dos formulários já são personalizadas nos schemas).
+// Fica aqui porque todo contrato importa este módulo: vale para a interface e para os mocks.
+z.config(z.locales.ptBR())
+
 /** Valor em ETH como string decimal: evita a perda de precisão de `number`. Cálculos usam big.js. */
 export const Eth = z.string().regex(/^\d+(\.\d{1,18})?$/, 'Valor em ETH inválido')
 export type Eth = z.infer<typeof Eth>

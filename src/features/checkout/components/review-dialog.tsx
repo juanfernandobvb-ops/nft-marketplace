@@ -139,7 +139,7 @@ export function ReviewDialog({ onClose, seenQuote, items, values, connection, co
 
         <dl aria-busy={isFetching} className="flex flex-col gap-2">
           <SummaryRow label="Subtotal" value={formatEth(quote.subtotal)} />
-          <SummaryRow label="Desconto" value={`(-) ${formatEth(quote.discount)}`} />
+          <SummaryRow label="Desconto" value={`(-) ${formatEth(quote.discount)}`} subtle />
           <SummaryRow label="Taxa de rede" value={formatEth(quote.networkFee)} />
           <SummaryRow label="Total" value={formatEth(quote.total)} strong />
         </dl>

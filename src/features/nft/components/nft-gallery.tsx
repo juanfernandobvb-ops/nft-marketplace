@@ -9,7 +9,7 @@ export function NftGallery({ nft }: { nft: Nft }) {
   const current = nft.images[index] ?? nft.images[0]!
 
   return (
-    <div className="flex shrink-0 flex-col-reverse gap-4 md:flex-row md:items-center md:gap-7">
+    <div className="flex shrink-0 flex-col-reverse gap-4 md:flex-row md:items-center md:gap-7 lg:self-start">
       <ul aria-label="Imagens do NFT" className="flex gap-3 md:flex-col md:gap-4">
         {nft.images.map((image, position) => (
           <li key={`${image.url}-${position}`}>

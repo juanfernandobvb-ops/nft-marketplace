@@ -86,7 +86,7 @@ function Receipt({ order }: { order: Order }) {
         <ThankYouIcon className="size-20 text-primary" aria-hidden="true" />
         <h1 className="text-base font-bold text-muted-foreground">Seus NFTs agora estão na sua carteira</h1>
       </header>
-      <dl className="grid grid-cols-2 gap-3 border-y border-primary px-6 py-3 text-[15px] text-muted-foreground sm:grid-cols-4 sm:px-9">
+      <dl className="grid grid-cols-2 gap-3 border-y border-primary px-6 py-3 text-[15px] text-muted-foreground sm:grid-cols-[repeat(4,auto)] sm:justify-between sm:px-9">
         {meta.map((item, index) => (
           <div key={item.label} className={index > 0 ? 'sm:border-l sm:border-primary sm:pl-3' : ''}>
             <dt className={item.strong ? 'text-sm font-bold' : 'text-sm'}>{item.label}</dt>

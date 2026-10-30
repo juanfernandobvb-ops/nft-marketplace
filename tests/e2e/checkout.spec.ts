@@ -62,8 +62,9 @@ test('rascunho do formulário sobrevive à expiração da sessão', async ({ pag
   await page.clock.install()
   await checkoutAsAna(page)
   await page.getByLabel('Observação do colecionador (opcional)').fill('Presente para a coleção')
-  // A sessão simulada dura 30 min: o relógio avança além disso.
-  await page.clock.fastForward('31:00')
+  // A sessão simulada dura 30 min: a hora avança além disso sem disparar os timers da página
+  // (ping do socket, polling), para a expiração ser detectada exatamente na próxima ação.
+  await page.clock.setSystemTime(Date.now() + 31 * 60_000)
   await page.getByRole('button', { name: 'Conectar MetaMask' }).click()
   await expect(page).toHaveURL(/\/login\?redirect=%2Fpagamento/)
   await page.getByLabel('E-mail', { exact: true }).fill('ana@kurio.dev')

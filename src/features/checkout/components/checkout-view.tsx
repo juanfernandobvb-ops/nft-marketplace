@@ -186,6 +186,10 @@ function CheckoutFormView({ userId, profile, wallets }: { userId: string; profil
         <h2 id="order-title" className="text-lg font-bold">
           Seus NFTs
         </h2>
+        <div aria-hidden="true" className="-mt-2 hidden justify-between border-b border-primary/30 pb-2 text-[15px] font-bold lg:flex">
+          <span>NFTs</span>
+          <span>Subtotal</span>
+        </div>
         <ul className="flex flex-col gap-3">
           {items.map((item) => (
             <li key={item.id} className="flex items-center gap-3 bg-card pr-3">
@@ -210,7 +214,7 @@ function CheckoutFormView({ userId, profile, wallets }: { userId: string; profil
         ) : (
           <dl className="flex flex-col gap-3">
             <SummaryRow label="Subtotal" value={formatEth(quote.subtotal)} />
-            <SummaryRow label="Desconto do lançamento" value={`(-) ${formatEth(quote.discount)}`} />
+            <SummaryRow label="Desconto do lançamento" value={`(-) ${formatEth(quote.discount)}`} subtle />
             <SummaryRow label="Taxa de rede" value={formatEth(quote.networkFee)} hint="Taxa estimada" />
             <SummaryRow label="Total" value={formatEth(quote.total)} strong />
           </dl>

@@ -83,12 +83,19 @@ test('logout e troca de usuário não mantêm dados privados da sessão anterior
 test('sessão expirada durante a navegação avisa e permite retomar', async ({ page }) => {
   await page.clock.install()
   await loginAt(page, EMERALD, 'bruno@kurio.dev')
-  // A sessão simulada dura 30 min: o relógio avança além disso.
-  await page.clock.fastForward('31:00')
+  // A sessão simulada dura 30 min: a hora avança além disso sem disparar os timers da página.
+  await page.clock.setSystemTime(Date.now() + 31 * 60_000)
   await favoriteButton(page).click()
   await expect(page.getByText('Sua sessão expirou')).toBeVisible()
-  await page.locator('[data-sonner-toast]').getByRole('button', { name: 'Entrar' }).click()
-  await expect(page).toHaveURL(/\/login\?redirect=/)
+  // Dois caminhos válidos: a requisição do favorito detecta a expiração e o aviso oferece "Entrar";
+  // ou uma requisição em segundo plano detecta antes, e o favorito (já sem sessão) leva direto ao login.
+  // Em ambos o usuário chega ao login com o retorno ao NFT.
+  await expect(async () => {
+    if (!page.url().includes('/login')) {
+      await page.locator('[data-sonner-toast]').getByRole('button', { name: 'Entrar' }).click({ timeout: 2_000 })
+    }
+    await expect(page).toHaveURL(/\/login\?redirect=/, { timeout: 2_000 })
+  }).toPass()
   await fillLogin(page, 'bruno@kurio.dev')
   await expect(page).toHaveURL(new RegExp(`${EMERALD}$`))
 })

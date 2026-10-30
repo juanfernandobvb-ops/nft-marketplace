@@ -122,12 +122,25 @@ export function CouponForm({ quote }: { quote: Quote | undefined }) {
   )
 }
 
-export function SummaryRow({ label, value, hint, strong }: { label: string; value: string; hint?: string; strong?: boolean }) {
+/** `subtle`: valor no tamanho do rótulo (o desconto, no Figma), para a linha caber sem quebrar. */
+export function SummaryRow({
+  label,
+  value,
+  hint,
+  strong,
+  subtle,
+}: {
+  label: string
+  value: string
+  hint?: string
+  strong?: boolean
+  subtle?: boolean
+}) {
   return (
     <div className="flex flex-col items-end gap-3">
       <div className="flex w-full items-center justify-between gap-3">
         <dt className={cn('min-w-0 text-[15px]', strong && 'text-base font-bold')}>{label}</dt>
-        <dd className={cn('shrink-0 text-lg whitespace-nowrap', strong && 'font-bold text-accent')}>{value}</dd>
+        <dd className={cn('shrink-0 text-lg whitespace-nowrap', subtle && 'text-[15px]', strong && 'font-bold text-accent')}>{value}</dd>
       </div>
       {hint && <span className="text-xs text-accent">{hint}</span>}
     </div>
@@ -179,7 +192,7 @@ function CartSummary({ items }: { items: CartItem[] }) {
         quote && (
           <dl aria-busy={isFetching} className={cn('flex flex-col gap-3 transition-opacity', isFetching && 'opacity-60')}>
             <SummaryRow label="Subtotal" value={formatEth(quote.subtotal)} />
-            <SummaryRow label="Desconto do lançamento" value={`(-) ${formatEth(quote.discount)}`} />
+            <SummaryRow label="Desconto do lançamento" value={`(-) ${formatEth(quote.discount)}`} subtle />
             <SummaryRow label="Taxa de rede" value={formatEth(quote.networkFee)} hint="Taxa estimada" />
             <div className="mt-4">
               <SummaryRow label="Total" value={formatEth(quote.total)} strong />
