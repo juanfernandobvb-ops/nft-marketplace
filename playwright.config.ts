@@ -1,6 +1,8 @@
 import { defineConfig, devices } from '@playwright/test'
 
 const PORT = 4173
+/** Roda a suíte contra uma URL publicada (ex.: o deploy na Vercel) em vez do preview local. */
+const EXTERNAL_BASE_URL = process.env.PLAYWRIGHT_BASE_URL
 
 export default defineConfig({
   // e2e/ (fluxos) e visual/ (regressão visual); support/ só tem utilitários.
@@ -21,7 +23,7 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   reporter: [['html', { open: 'never' }], ['list']],
   use: {
-    baseURL: `http://localhost:${PORT}`,
+    baseURL: EXTERNAL_BASE_URL ?? `http://localhost:${PORT}`,
     trace: 'retain-on-failure',
     screenshot: 'only-on-failure',
   },
@@ -46,10 +48,12 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], viewport: { width: 768, height: 1024 }, hasTouch: true },
     },
   ],
-  webServer: {
-    command: `npm run build && npm run preview -- --port ${PORT} --strictPort`,
-    url: `http://localhost:${PORT}`,
-    reuseExistingServer: !process.env.CI,
-    timeout: 180_000,
-  },
+  webServer: EXTERNAL_BASE_URL
+    ? undefined
+    : {
+        command: `npm run build && npm run preview -- --port ${PORT} --strictPort`,
+        url: `http://localhost:${PORT}`,
+        reuseExistingServer: !process.env.CI,
+        timeout: 180_000,
+      },
 })

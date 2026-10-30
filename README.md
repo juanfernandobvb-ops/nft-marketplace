@@ -4,7 +4,8 @@ Implementação do [desafio frontend da Jungle Gaming](https://github.com/jungle
 
 API REST, autenticação, carteiras, pagamentos e eventos em tempo real funcionam com **dados simulados pelo MSW**, inclusive no build publicado. Nenhum backend ou serviço privado é necessário.
 
-- **Aplicação publicada:** _(preenchida após o deploy)_
+- **Aplicação publicada:** https://nft-marketplace-gold-eta.vercel.app
+- **Repositório:** https://github.com/juanfernandobvb-ops/nft-marketplace
 - **Decisões técnicas, contratos e limitações:** [ARCHITECTURE.md](ARCHITECTURE.md)
 - **Resultados do Lighthouse:** [lighthouse/RESULTS.md](lighthouse/RESULTS.md)
 
@@ -127,6 +128,9 @@ Cada cenário é determinístico: mesmos dados, mesma latência e mesmas falhas 
 npm run test:e2e                       # todos os testes (Chromium: desktop 1440, mobile 390, tablet 768)
 npx playwright test tests/e2e/cart.spec.ts --project=mobile
 npx playwright show-report             # relatório HTML (playwright-report/)
+
+# mesma suíte contra a versão publicada, em vez do preview local
+PLAYWRIGHT_BASE_URL=https://nft-marketplace-gold-eta.vercel.app npx playwright test
 ```
 
 - Os testes rodam contra o build otimizado com os mocks ativos. Cada teste parte de um estado isolado (`?scenario=` reinicia os dados).
