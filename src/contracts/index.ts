@@ -1,0 +1,12 @@
+// Contratos compartilhados entre interface, serviços (Axios/Socket.IO) e mocks (MSW).
+export * from '@/contracts/common'
+export * from '@/contracts/endpoints'
+export * from '@/contracts/api/auth'
+export * from '@/contracts/api/nfts'
+export * from '@/contracts/api/favorites'
+export * from '@/contracts/api/cart'
+export * from '@/contracts/api/quote'
+export * from '@/contracts/api/orders'
+export * from '@/contracts/api/profile'
+export * from '@/contracts/api/wallets'
+export * from '@/contracts/events'

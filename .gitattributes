@@ -1,0 +1,6 @@
+# Quebras de linha normalizadas (LF) entre Windows, macOS e Linux.
+* text=auto eol=lf
+*.png binary
+*.jpg binary
+*.webp binary
+*.woff2 binary

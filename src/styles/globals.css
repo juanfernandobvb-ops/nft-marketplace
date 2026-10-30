@@ -1,0 +1,82 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/roboto-mono/wght.css';
+
+/* Tokens do Figma "Marketplace de NFTs GreenMint" (variáveis color/* e font/family). */
+@theme inline {
+  --font-sans: 'Roboto Mono Variable', ui-monospace, monospace;
+  --font-mono: 'Roboto Mono Variable', ui-monospace, monospace;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--foreground);
+  --color-popover: var(--card);
+  --color-popover-foreground: var(--foreground);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-dark: var(--surface-dark);
+  --color-elevated: var(--elevated);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--primary-foreground);
+  --color-muted: var(--surface-raised);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-border-soft: var(--border-soft);
+  --color-input: var(--border);
+  --color-ring: var(--primary);
+  --color-destructive: var(--destructive);
+  --color-success: var(--success);
+
+  /* Raios do Figma: 4px paginação, 6px botões/inputs, 8px cards, 24px hero. */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-3xl: 24px;
+
+  --animate-shimmer: shimmer 1.6s ease-in-out infinite;
+  @keyframes shimmer {
+    100% {
+      transform: translateX(100%);
+    }
+  }
+}
+
+/* O layout só tem tema escuro. */
+:root {
+  color-scheme: dark;
+  --radius: 0.5rem;
+
+  --background: #140d0a; /* color/ink */
+  --foreground: #f5f1eb; /* color/foreground */
+  --card: #241612; /* color/surface-card */
+  --surface-raised: #2f1d15; /* color/surface-raised */
+  --surface-dark: #38220f; /* color/surface-dark */
+  --elevated: #fbfbfb; /* color/background-elevated */
+  --primary: #d28a4c; /* color/primary */
+  --primary-foreground: #140d0a;
+  --secondary: #b39463; /* color/secondary */
+  --accent: #e89b55; /* color/text-accent */
+  --muted-foreground: #cfb28c; /* color/text-secondary */
+  --border: #3f2319; /* color/border */
+  --border-soft: #55321f; /* color/border-soft */
+  --destructive: #f0805f; /* color/text-coral */
+  --success: #00a66c; /* color/success */
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+  /* Foco visível consistente em toda navegação por teclado (contraste alto sobre o fundo escuro). */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}

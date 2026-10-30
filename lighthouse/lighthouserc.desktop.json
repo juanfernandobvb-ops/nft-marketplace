@@ -1,0 +1,16 @@
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "npm run preview -- --port 4175 --strictPort",
+      "startServerReadyPattern": "4175",
+      "url": ["http://localhost:4175/", "http://localhost:4175/nfts/emerald-ape-042"],
+      "numberOfRuns": 3,
+      "settings": { "preset": "desktop" }
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": "lighthouse/reports/desktop",
+      "reportFilenamePattern": "%%PATHNAME%%-%%DATETIME%%.report.%%EXTENSION%%"
+    }
+  }
+}

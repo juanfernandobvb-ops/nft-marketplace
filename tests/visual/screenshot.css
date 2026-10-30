@@ -1,0 +1,10 @@
+/* Aplicado só nas capturas de regressão visual: remove elementos transitórios. */
+[data-sonner-toaster] {
+  display: none !important;
+}
+
+/* Barras fixas aparecem no meio das capturas de página inteira; são verificadas em captura própria. */
+[data-fullpage] nav[aria-label='Navegação principal'],
+[data-fullpage] .fixed.bottom-0 {
+  display: none !important;
+}
