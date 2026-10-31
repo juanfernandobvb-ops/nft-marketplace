@@ -146,10 +146,10 @@ PLAYWRIGHT_BASE_URL=https://nft-marketplace-gold-eta.vercel.app npx playwright t
 
 | Perfil | Página | Performance | Acessibilidade | Boas práticas | SEO | LCP | CLS | TBT |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
-| mobile | Início | 91 | 100 | 100 | 100 | 3,23 s | 0 | 108 ms |
-| mobile | Detalhe | 91 | 100 | 100 | 100 | 3,18 s | 0 | 84 ms |
-| desktop | Início | 100 | 100 | 100 | 100 | 0,81 s | 0 | 0 ms |
-| desktop | Detalhe | 99 | 100 | 100 | 100 | 0,82 s | 0 | 0 ms |
+| mobile | Início | 92 | 100 | 100 | 100 | 3,16 s | 0 | 60 ms |
+| mobile | Detalhe | 92 | 100 | 100 | 100 | 3,15 s | 0 | 57 ms |
+| desktop | Início | 100 | 100 | 100 | 100 | 0,79 s | 0 | 0 ms |
+| desktop | Detalhe | 100 | 100 | 100 | 100 | 0,80 s | 0 | 0 ms |
 
 Ambiente, versões e a análise dos resultados estão em [lighthouse/RESULTS.md](lighthouse/RESULTS.md) e em [ARCHITECTURE.md](ARCHITECTURE.md#performance).
 

@@ -23,6 +23,9 @@ async function connectAndReview(page: Page) {
 
 const confirmButton = (page: Page) => page.getByRole('dialog').getByRole('button', { name: /Confirmar compra|Tentar novamente/ })
 
+/** No mobile (layout do Figma) os dados do colecionador ficam num bloco recolhível, fechado de início. */
+const collectorToggle = (page: Page) => page.getByText('Dados do colecionador', { exact: true })
+
 /** O pagamento simulado leva 2,5 s para ser liquidado (cenários default e payment-rejected). */
 const PAYMENT_SETTLE = 3_000
 
@@ -48,19 +51,24 @@ test('compra completa do catálogo ao recibo confirmado', async ({ page, isMobil
   await expect(page.getByText('Seu carrinho está vazio')).toBeVisible()
 })
 
-test('formulário valida os campos e exige carteira conectada antes da revisão', async ({ page }) => {
+test('formulário valida os campos e exige carteira conectada antes da revisão', async ({ page, isMobile }) => {
   await checkoutAsAna(page)
+  if (isMobile) await collectorToggle(page).click()
   await page.getByRole('textbox', { name: 'Nome de exibição' }).fill('')
   await page.getByRole('textbox', { name: 'E-mail', exact: true }).fill('invalido')
+  // No mobile, fecha o bloco: o envio com erro precisa reabri-lo e levar o foco ao primeiro campo inválido.
+  if (isMobile) await collectorToggle(page).click()
   await page.getByRole('button', { name: 'Revisar e confirmar compra' }).click()
   await expect(page.getByText('Informe o nome de exibição')).toBeVisible()
   await expect(page.getByText('E-mail inválido')).toBeVisible()
+  if (isMobile) await expect(page.getByRole('textbox', { name: 'Nome de exibição' })).toBeFocused()
   await expect(page.getByRole('dialog')).toHaveCount(0)
 })
 
-test('rascunho do formulário sobrevive à expiração da sessão', async ({ page }) => {
+test('rascunho do formulário sobrevive à expiração da sessão', async ({ page, isMobile }) => {
   await page.clock.install()
   await checkoutAsAna(page)
+  if (isMobile) await collectorToggle(page).click()
   await page.getByLabel('Observação do colecionador (opcional)').fill('Presente para a coleção')
   // A sessão simulada dura 30 min: a hora avança além disso sem disparar os timers da página
   // (ping do socket, polling), para a expiração ser detectada exatamente na próxima ação.

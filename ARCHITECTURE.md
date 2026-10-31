@@ -183,6 +183,7 @@ Ajustes em relação ao layout:
 - **Avaliação por estrelas:** o texto para leitor de tela fica em `sr-only`, porque `aria-label` em `<p>` não é permitido.
 - **Abas do catálogo e menu da conta:** quebram linha em telas estreitas, em vez de esconder itens numa rolagem lateral.
 - **Ícone "mostrar senha":** foi adicionado (o Figma só tem "ocultar").
+- **Indicadores da galeria no mobile:** cada bolinha tem área de toque de 24 px (critério de alvo de toque da WCAG), por isso ficam um pouco mais espaçadas que no Figma.
 
 ## Performance
 
@@ -190,10 +191,10 @@ Medianas de 3 execuções do Lighthouse 12.6 (detalhes em [lighthouse/RESULTS.md
 
 | Perfil | Página | Performance | Acessib. | Boas práticas | SEO | LCP | CLS | TBT |
 |---|---|---:|---:|---:|---:|---:|---:|---:|
-| mobile | Início | 91 | 100 | 100 | 100 | 3,23 s | 0 | 108 ms |
-| mobile | Detalhe | 91 | 100 | 100 | 100 | 3,18 s | 0 | 84 ms |
-| desktop | Início | 100 | 100 | 100 | 100 | 0,81 s | 0 | 0 ms |
-| desktop | Detalhe | 99 | 100 | 100 | 100 | 0,82 s | 0 | 0 ms |
+| mobile | Início | 92 | 100 | 100 | 100 | 3,16 s | 0 | 60 ms |
+| mobile | Detalhe | 92 | 100 | 100 | 100 | 3,15 s | 0 | 57 ms |
+| desktop | Início | 100 | 100 | 100 | 100 | 0,79 s | 0 | 0 ms |
+| desktop | Detalhe | 100 | 100 | 100 | 100 | 0,80 s | 0 | 0 ms |
 
 Correções feitas a partir da primeira medição:
 
@@ -204,7 +205,7 @@ Correções feitas a partir da primeira medição:
 | SEO 92 em todas as páginas | Sem `robots.txt`: o servidor devolvia o HTML da aplicação. | `public/robots.txt`. | 92 → 100 |
 | Acessibilidade 97 no detalhe | `aria-label` em `<p>`. | Texto em `sr-only`. | 97 → 100 |
 
-Análise do mobile, onde a margem é pequena (execuções individuais entre 89 e 92):
+Análise do mobile, onde a margem é menor. A medição final deu 92 em todas as execuções, mas a pontuação é sensível à carga da máquina: com outros processos pesados rodando, execuções isoladas chegaram a 88–90. Uma comparação lado a lado com uma versão anterior, na mesma máquina e no mesmo momento, confirmou que essa oscilação vem do ambiente, e não do código.
 - **De onde vem o LCP de ~3,2 s:** TTFB 0,47 s, espera para começar a baixar a imagem 1,6 s e render 1,0 s. A espera é dominada pelo JavaScript. O MSW (~172 KB comprimido, ~0,5 s de CPU no perfil mobile) precisa iniciar **antes** do app, porque o socket.io-client guarda o WebSocket ao carregar. Só depois o app baixa o restante e pede os dados.
 - **É um custo da exigência:** os mocks ficam ativos no build de demonstração, como pede o enunciado. Com uma API real (`VITE_ENABLE_MOCKS=false`), o MSW nem é baixado.
 - **Experimento descartado:** pré-carregar o MSW e o app em paralelo (`modulepreload`) **piorou** a Performance mobile para 75 (LCP 4,4 s). Na rede lenta simulada, os downloads competem com o CSS, a fonte e a imagem principal. A mudança foi revertida.
@@ -225,9 +226,12 @@ Análise do mobile, onde a margem é pequena (execuções individuais entre 89 e
 - **Rótulos "Contrato" e "Direitos autorais":** estavam trocados no Figma; foi usada a ordem correta.
 - **Selo "RARO" do card mobile:** não foi implementado, porque a lista da API não traz raridade.
 - **Pagamento:** abre uma revisão antes de confirmar (exigência do enunciado). Os campos de carteira são somente leitura, porque vêm das carteiras cadastradas.
-- **Pagamento no mobile:** o frame do Figma mostra só a escolha de carteira e rede. A implementação mantém também os dados do colecionador (validados, como pede o enunciado), na mesma ordem do desktop, em uma coluna.
+- **Pagamento no mobile:** segue o frame, com carteira conectada (cartões Principal e Reserva), "Carteira e rede", total e botão fixo. Há três diferenças:
+  - os dados do colecionador ficam num bloco recolhível "Dados do colecionador", porque o enunciado exige validá-los e o frame não os mostra; com erro, o bloco abre sozinho e o foco vai ao campo;
+  - aparece o botão "Conectar" da carteira, porque a conexão simulada é obrigatória;
+  - o botão principal se chama "Revisar e confirmar compra", porque abre a revisão obrigatória.
 - **Confirmação do pedido:** é uma página própria (com cabeçalho), e não um modal sobre o fundo, para funcionar com acesso direto, refresh e retomada de um pedido pendente. O cartão segue o layout do Figma.
-- **Detalhe no mobile:** as miniaturas da galeria continuam visíveis abaixo da imagem (o frame mostra só a imagem principal), para a galeria funcionar também no toque.
+- **Detalhe no mobile:** segue o frame (imagem sem moldura, indicadores da galeria sobre a imagem, painel subindo sobre ela). O botão de ampliar a imagem foi mantido, para a função existir também no mobile.
 - **Início no mobile:** há uma linha "Filtros / Ordenar" abaixo das abas, porque a ordenação é obrigatória e o frame não tem esse controle.
 - **Trilho "Mais desta coleção":** sem as bolinhas de paginação do Figma; no desktop os 5 itens cabem na linha e no mobile o trilho rola na horizontal.
 - **Rodapé, coluna "Meu perfil":** os links do Figma (Minha coleção, Atividade, Estúdio do criador, Lista de interesse) apontam para áreas fora do escopo e foram trocados pelos destinos que existem: Meu perfil, Minhas carteiras e Carrinho.
@@ -244,4 +248,4 @@ Análise do mobile, onde a margem é pequena (execuções individuais entre 89 e
 
 - **Não há backend:** toda a persistência é do navegador. Limpar os dados do site reinicia a simulação.
 - **Cada aba roda o próprio servidor simulado:** eventos em tempo real não atravessam abas (veja [Transporte do socket](#transporte-do-socket-e-limitações)).
-- **Performance mobile:** fica perto do limite de 90 por causa da inicialização obrigatória do MSW (veja [Performance](#performance)).
+- **Performance mobile:** 92, com margem pequena sobre a meta de 90, por causa da inicialização obrigatória do MSW; em máquina sobrecarregada pode oscilar (veja [Performance](#performance)).

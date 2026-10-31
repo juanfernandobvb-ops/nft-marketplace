@@ -150,16 +150,16 @@ export function NftDetailSkeleton() {
         <Skeleton className="size-[35px] rounded-full" />
       </div>
       <DetailBreadcrumb />
-      <div className="mt-4 flex flex-col gap-8 lg:flex-row">
+      <div className="mt-4 flex flex-col md:gap-8 lg:flex-row">
         <div className="flex flex-col-reverse gap-4 md:flex-row md:gap-7">
-          <div className="flex gap-3 md:flex-col md:gap-4">
+          <div className="hidden md:flex md:flex-col md:gap-4">
             {Array.from({ length: 4 }, (_, index) => (
-              <Skeleton key={index} className="size-16 rounded-lg md:size-[100px]" />
+              <Skeleton key={index} className="size-[100px] rounded-lg" />
             ))}
           </div>
-          <Skeleton className="aspect-square w-full md:flex-1 lg:size-[444px] lg:flex-none" />
+          <Skeleton className="mx-3 aspect-square rounded-3xl md:mx-0 md:w-full md:flex-1 md:rounded-md lg:size-[444px] lg:flex-none" />
         </div>
-        <div className="flex flex-1 flex-col gap-5">
+        <div className="relative -mx-4 -mt-[30px] flex flex-1 flex-col gap-5 rounded-t-[31px] bg-card p-6 md:mx-0 md:mt-0 md:rounded-none md:bg-transparent md:p-0">
           <Skeleton className="h-9 w-2/3" />
           <Skeleton className="h-5 w-1/3" />
           <Skeleton className="h-24 w-full" />
@@ -254,11 +254,12 @@ function NftDetailView({ nft }: { nft: Nft }) {
 
       <DetailBreadcrumb />
 
-      <article className="mt-4 flex flex-col gap-8 lg:flex-row" aria-labelledby="nft-title">
+      <article className="mt-4 flex flex-col md:gap-8 lg:flex-row" aria-labelledby="nft-title">
         <NftGallery nft={nft} />
 
-        <div className="flex min-w-0 flex-1 flex-col gap-5 rounded-t-[31px] bg-card p-6 md:rounded-none md:bg-transparent md:p-0">
-          <header className="flex flex-col gap-3 border-b border-primary/30 pb-3">
+        {/* No mobile o painel sobe 30 px sobre a imagem e vai de borda a borda, como no Figma. */}
+        <div className="relative -mx-4 -mt-[30px] flex min-w-0 flex-1 flex-col gap-5 rounded-t-[31px] bg-card p-6 md:mx-0 md:mt-0 md:rounded-none md:bg-transparent md:p-0">
+          <header className="flex flex-col gap-3 md:border-b md:border-primary/30 md:pb-3">
             <div className="flex items-center justify-between gap-4">
               <h1 id="nft-title" className="text-xl leading-tight font-bold md:text-[28px] md:leading-[37px]">
                 {nft.name}

@@ -10,7 +10,8 @@ export function NftGallery({ nft }: { nft: Nft }) {
 
   return (
     <div className="flex shrink-0 flex-col-reverse gap-4 md:flex-row md:items-center md:gap-7 lg:self-start">
-      <ul aria-label="Imagens do NFT" className="flex gap-3 md:flex-col md:gap-4">
+      {/* Miniaturas no desktop; no mobile a troca de imagem é feita pelos indicadores sobre a imagem (Figma). */}
+      <ul aria-label="Imagens do NFT" className="hidden md:flex md:flex-col md:gap-4">
         {nft.images.map((image, position) => (
           <li key={`${image.url}-${position}`}>
             <button
@@ -29,7 +30,7 @@ export function NftGallery({ nft }: { nft: Nft }) {
         ))}
       </ul>
 
-      <div className="relative rounded-md bg-card p-4 md:flex-1 lg:flex-none">
+      <div className="relative mx-3 md:mx-0 md:flex-1 md:rounded-md md:bg-card md:p-4 lg:flex-none">
         <img
           src={current.url}
           alt={current.alt}
@@ -38,10 +39,32 @@ export function NftGallery({ nft }: { nft: Nft }) {
           fetchPriority="high"
           className="aspect-square w-full rounded-3xl object-cover lg:w-[404px]"
         />
+        {nft.images.length > 1 && (
+          <ul aria-label="Imagens do NFT" className="absolute inset-x-0 bottom-[42px] flex justify-center md:hidden">
+            {nft.images.map((image, position) => (
+              <li key={`${image.url}-${position}`}>
+                <button
+                  type="button"
+                  onClick={() => setIndex(position)}
+                  aria-pressed={position === index}
+                  aria-label={`Ver imagem ${position + 1} de ${nft.images.length}`}
+                  className="grid h-6 min-w-6 cursor-pointer place-items-center"
+                >
+                  <span
+                    className={cn(
+                      'block h-[7px] rounded-full bg-primary transition-[width] motion-reduce:transition-none',
+                      position === index ? 'w-7' : 'w-[7px]',
+                    )}
+                  />
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
         <Dialog>
           <DialogTrigger
             aria-label="Ampliar imagem"
-            className="absolute top-6 right-6 grid size-[30px] md:-top-3 md:-right-3 cursor-pointer place-items-center rounded-full border border-border bg-surface-raised"
+            className="absolute top-3 right-3 grid size-[30px] cursor-pointer place-items-center rounded-full border border-border bg-surface-raised md:-top-3 md:-right-3"
           >
             <SearchIcon className="size-4" />
           </DialogTrigger>

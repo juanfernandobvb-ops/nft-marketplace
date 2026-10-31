@@ -4,11 +4,11 @@ import { useCartCount } from '@/features/cart/api'
 
 const item = 'grid size-11 place-items-center rounded-md text-secondary [&.active]:text-accent'
 
-/** Navegação inferior do layout mobile (o detalhe do NFT usa a barra de compra no lugar). */
+/** Navegação inferior do layout mobile (detalhe do NFT e pagamento usam a própria barra de ação no lugar). */
 export function MobileTabBar() {
   const cartCount = useCartCount()
   const pathname = useRouterState({ select: (state) => state.location.pathname })
-  if (pathname.startsWith('/nfts/')) return null
+  if (pathname.startsWith('/nfts/') || pathname === '/pagamento') return null
   return (
     <nav aria-label="Navegação principal" className="fixed inset-x-0 bottom-0 z-40 md:hidden">
       <ul className="relative flex h-[76px] items-center justify-around rounded-t-3xl border-t border-border bg-card px-4">
